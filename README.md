@@ -38,6 +38,10 @@ News Aggregator is a mobile-friendly platform developed for users who want news 
 - The app includes robust error handling mechanisms that provide users with clear feedback in case of any issues with loading articles.
 - If an error occurs while fetching data from any of the sources, a user-friendly error message is displayed.
 
+## Live Website
+https://news-aggregator-dusky-kappa.vercel.app/
+Articles from NewsAPI will not be fetched on the live application due to its limitations on a developer account.
+
 ## How to Run
 ### Prerequisites
 Before running the application, ensure you have installed Docker on your machine. You can download Docker from [Docker's official website](https://www.docker.com/get-started).
