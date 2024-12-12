@@ -54,15 +54,15 @@ Navigate to the root directory of your project (where the Dockerfile is located)
 
 Build the Docker image
 
-**docker build -t news-aggregator-ui .**
+**docker build -t news-aggregator .**
 
 Run the Docker container
 
-**docker run -p 3000:3000 news-aggregator-ui**
+**docker run -p 3000:3000 news-aggregator**
 
 where
 
--t news-aggregator-ui: Tags the image with the name news-aggregator-ui.
+-t news-aggregator: Tags the image with the name news-aggregator.
 
 . : Specifies the current directory as the build context.
 
