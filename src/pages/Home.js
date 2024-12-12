@@ -12,7 +12,6 @@ const Home = () => {
     const [allArticles, setAllArticles] = useState([])
     const [filteredArticles, setFilteredArticles] = useState([])
     const [loading, setLoading] = useState(false)
-    const [filters, setFilters] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
 
     // filter values that will be populated based on data fetched
@@ -23,8 +22,9 @@ const Home = () => {
     // filters
     const [keyword, setKeyword] = useState("")
     const [sources, setSources] = useState([])
-    const [categories, setCategory] = useState([])
+    const [categories, setCategories] = useState([])
     const [date, setDate] = useState(null)
+    const isFilterActive = sources.length || categories.length || date
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -64,24 +64,19 @@ const Home = () => {
 
     const handleFilter = () => {
         let filtered = filterArticles(allArticles)
-
         setFilteredArticles(filtered)
-        setIsModalOpen(false)
-        setFilters(true)
+    }
+
+    const handleFilterClear = () => {
+        setSources([])
+        setCategories([])
+        setDate(null)
     }
 
     const handleSearchClear = () => {
         setKeyword("")
         setFilteredArticles([])
         setAllArticles([])
-    }
-
-    const handleFilterClear = () => {
-        setSources([])
-        setCategory([])
-        setDate(null)
-        handleFilter()
-        setFilters(false)
     }
 
     // Fetch and process articles from our datasources
@@ -128,6 +123,10 @@ const Home = () => {
             fetchAndProcessArticles()
     }, [keyword, currentPage])
 
+    useEffect(() => {
+        handleFilter()
+    }, [sources, categories, date])
+
     return (
         <Spin spinning={loading} tip="Loading...">
             <Row align="middle" justify='space-between'>
@@ -150,7 +149,7 @@ const Home = () => {
                     >
                         Filters
                     </Button>
-                    {filters ? (
+                    {isFilterActive ? (
                         <Tooltip title="Clear Filters">
                             <Button size="small" shape="circle" icon={<CloseOutlined />} onClick={handleFilterClear} />
                         </Tooltip>
@@ -177,8 +176,12 @@ const Home = () => {
                 title="Filter Content"
                 open={isModalOpen}
                 okText="Apply Filter"
-                onOk={handleFilter}
+                onOk={() => {
+                    handleFilter()
+                    setIsModalOpen(false)
+                }}
                 onCancel={() => setIsModalOpen(false)}
+                destroyOnClose
             >
                 <Space
                     direction="vertical"
@@ -198,7 +201,7 @@ const Home = () => {
                     <Select
                         placeholder="Select Category"
                         style={{ width: "50%" }}
-                        onChange={(value) => setCategory(value)}
+                        onChange={(value) => setCategories(value)}
                         options={extractedCategories}
                         allowClear
                         mode="multiple"
