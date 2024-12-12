@@ -1,0 +1,17 @@
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV REACT_APP_NEWS_API_KEY=cd7bd354a1214e2fbf022c449ae156f5
+ENV REACT_APP_GUARDIAN_API_KEY=40269063-c1ba-4d03-bc58-06e5ad912669
+ENV REACT_APP_NY_TIMES_API_KEY=o8bnYXwFtuEXAnrac03EMk2BMBgkphtk
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
